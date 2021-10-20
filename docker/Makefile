@@ -28,6 +28,9 @@ endif
 ifdef LOGO_FOOTER
 	BLOCKSCOUT_CONTAINER_PARAMS += -e 'LOGO_FOOTER=$(LOGO_FOOTER)'
 endif
+ifdef LOGO_TEXT
+	BLOCKSCOUT_CONTAINER_PARAMS += -e 'LOGO_TEXT=$(LOGO_TEXT)'
+endif
 ifdef ETHEREUM_JSONRPC_VARIANT
 	BLOCKSCOUT_CONTAINER_PARAMS += -e 'ETHEREUM_JSONRPC_VARIANT=$(ETHEREUM_JSONRPC_VARIANT)'
 endif
@@ -331,7 +334,7 @@ ifdef DISPLAY_TOKEN_ICONS
 endif
 
 HAS_BLOCKSCOUT_IMAGE := $(shell docker images | grep -sw ${DOCKER_IMAGE})
-build: 
+build:
 	@echo "==> Checking for blockscout image $(DOCKER_IMAGE)"
 ifdef HAS_BLOCKSCOUT_IMAGE
 	@echo "==> Image exist. Using $(DOCKER_IMAGE)"
@@ -375,7 +378,7 @@ else
 	@$(MAKE) -f $(THIS_FILE) migrate_only
 endif
 
-start: build postgres 
+start: build postgres
 	@echo "==> Starting blockscout"
 	@docker run --rm --name $(BS_CONTAINER_NAME) \
 					$(BLOCKSCOUT_CONTAINER_PARAMS) \
@@ -388,4 +391,4 @@ run: start
 				migrate \
 				start \
 				postgres \
-				run 
+				run
